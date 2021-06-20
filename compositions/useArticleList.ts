@@ -1,5 +1,5 @@
 import { reactive, ref, useContext } from "@nuxtjs/composition-api";
-// import { ArticleListRequest } from '@/api/articleRepository'
+import { ArticleListRequest } from '@/api/articleRepository'
 import { Article } from '@/types'
 
 type State = {
@@ -7,7 +7,7 @@ type State = {
 }
 
 export default function useArticleList () {
-  const { $repository, $axios } = useContext()
+  const { $repository } = useContext()
 
   const state = reactive<State>({
     articleList: []
@@ -22,6 +22,7 @@ export default function useArticleList () {
   // }
 
   const getFeedArticleList = async (offset = 0) => {
+    console.log("getFeedArticleList")
 
     // const res = await $axios.get("http://localhost:3333/articles/feed")
     // console.log(res)

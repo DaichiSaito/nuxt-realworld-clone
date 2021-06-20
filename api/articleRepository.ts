@@ -35,7 +35,13 @@ export const articleRepository = (axios: NuxtAxiosInstance) => ({
     limit = LIMIT_LIST_ITEM,
     offset = 0,
   }: FeedArticleListRequest = {}): ArticleListResponse {
-    return axios.$get('/articles/feed')
+    console.log("getFeedArticleList")
+    return axios.$get('/articles/feed', {
+      params: {
+        limit,
+        offset
+      }
+    })
   },
 })
 

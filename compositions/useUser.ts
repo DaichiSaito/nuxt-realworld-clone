@@ -41,12 +41,15 @@ export default function useUser() {
   
   const retryLogin = async (token: User['token']) => {
     const response = await $repository.user.getCurrentUser(token)
-
+    console.log(response)
     if (response.user) {
+      console.log("retryLogin成功")
       setLogin({
         axios: $axios,
         user: response.user
       })
+    } else {
+      console.log("retryLogin失敗")
     }
   }
 

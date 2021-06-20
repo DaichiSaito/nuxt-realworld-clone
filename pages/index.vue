@@ -1,35 +1,19 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        nuxt-realworld-clone
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="home-page">
+    <Banner v-if="!isLogin" />
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <!-- TODO: tab-navivation -->
+          <article-list-loading v-if="fetchState.pending" />
+          <template v-if="!fetchState.pending && !fetchState.error">
+            <article-preview-list
+              :article-list="articleList"
+            />
+          </template>
+        </div>
       </div>
     </div>
-    <template v-if="!fetchState.pending && !fetchState.error">
-      <div v-for="article in articleList">
-        {{article.title}}
-      </div>
-    </template>
-    {{articleList}}
   </div>
 </template>
 
@@ -41,13 +25,17 @@ import {
   toRefs,
   useFetch,
 } from '@nuxtjs/composition-api'
-import { useArticleList } from '@/compositions'
+
+import ArticleListLoading from '@/components/articleList/ArticleListLoading.vue'
+import { useArticleList, useUser } from '@/compositions'
 export default defineComponent({
   name: 'IndexPage',
   components: {
-
+    ArticleListLoading
   },
   setup () {
+    console.log("それともこっちがさき？")
+    const { isLogin } = useUser()
     const {
       state: articleListState,
       getFeedArticleList
@@ -57,12 +45,12 @@ export default defineComponent({
       await getFeedArticleList(offset)
     }
     const { fetchState } = useFetch(() => fetchData())
-    console.log(articleListState)
 
     return {
       fetchState,
       fetchData,
-      ...toRefs(articleListState)
+      ...toRefs(articleListState),
+      isLogin
     }
   }
 })
