@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "body": "Hello"
+    },
+    {
+      "id": 2,
+      "body": "Hi"
+    },
+    {
+      "id": 3,
+      "body": "yey"
+    },
+    {
+      "id": 4,
+      "body": "Yummy"
+    }
+  ],
+  "articles": {
+    "articles": [
+      {
+        "id": 1,
+        "title": "hogehoge"
+      }
+    ]
+  }
+}
