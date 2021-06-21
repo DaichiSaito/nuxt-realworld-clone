@@ -24,13 +24,14 @@ type ArticleListResponse = ResponseTypes<{
 }>
 
 export const articleRepository = (axios: NuxtAxiosInstance) => ({
-  // getArticleList({
-    
-  // }: ArticleListRequest = {}): ArticleListResponse {
-  //   return axios.$get('/articles', {
-
-  //   })
-  // },
+  getArticleList({
+    limit = LIMIT_LIST_ITEM,
+    offset = 0
+  }: ArticleListRequest = {}): ArticleListResponse {
+    return axios.$get('/articles', {
+      params: { limit, offset }
+    })
+  },
   getFeedArticleList({
     limit = LIMIT_LIST_ITEM,
     offset = 0,
