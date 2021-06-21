@@ -6,6 +6,8 @@ export interface User {
   image: string
 }
 
+export type Tag = string
+
 export interface Article {
   slug: string
   title: string

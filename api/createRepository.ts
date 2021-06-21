@@ -2,14 +2,17 @@ import { Context } from '@nuxt/types'
 import {
   articleRepository,
   userRepository,
+  tagRepository,
   ArticleRepository,
-  UserRepository
+  UserRepository,
+  TagRepository
 } from '@/api'
 import { ErrorType } from '@/constants'
 
 export type Repository = {
   article: ArticleRepository,
-  user: UserRepository
+  user: UserRepository,
+  tag: TagRepository
 }
 
 /**
@@ -47,7 +50,8 @@ const createRepository = ({ app, $axios, redirect }: Context): Repository => {
 
   return {
     article: articleRepository($axios),
-    user: userRepository($axios)
+    user: userRepository($axios),
+    tag: tagRepository($axios)
   }
 }
 

@@ -16,6 +16,14 @@
             />
           </template>
         </div>
+        <template v-if="!fetchState.pending && !fetchState.error">
+          <div class="col-md-3">
+            <popular-tag-list
+              :tag-list="tagList"
+              @on-click-tag="getArticleListByTag"
+            />
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -33,14 +41,16 @@ import {
 import ArticleListLoading from '@/components/articleList/ArticleListLoading.vue'
 import Banner from '@/components/banner/Banner.vue'
 import TabNavigation from '@/components/articleList/TabNavigation.vue'
-import { useArticleList, useUser } from '@/compositions' 
+import PopularTagList from '@/components/articleList/PopularTagList.vue'
+import { useArticleList, useUser, useTag } from '@/compositions' 
 import { feedTypes } from '@/constants'
 export default defineComponent({
   name: 'IndexPage',
   components: {
     Banner,
     TabNavigation,
-    ArticleListLoading
+    ArticleListLoading,
+    PopularTagList
   },
   setup () {
     console.log("それともこっちがさき？")
@@ -50,8 +60,11 @@ export default defineComponent({
       feedType,
       getFeedArticleList,
       getArticleList,
-      getArticleListByFeed
+      getArticleListByFeed,
+      getArticleListByTag
     } = useArticleList()
+
+    const { state: tagState, getTagList } = useTag()
 
     const fetchData = async (offset = 0) => {
       if (feedType.value === 'YOUR') {
@@ -59,6 +72,8 @@ export default defineComponent({
       } else {
         await getArticleList({ offset })
       }
+
+      await getTagList()
     }
     const { fetchState } = useFetch(() => fetchData())
 
@@ -71,10 +86,12 @@ export default defineComponent({
       fetchState,
       fetchData,
       ...toRefs(articleListState),
+      tagList: toRef(tagState, 'tagList'),
       isLogin,
       feedType,
       tabItems,
-      getArticleListByFeed
+      getArticleListByFeed,
+      getArticleListByTag
     }
   }
 })

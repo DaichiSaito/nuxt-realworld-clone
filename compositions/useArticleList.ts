@@ -1,6 +1,6 @@
 import { reactive, ref, useContext } from "@nuxtjs/composition-api";
 import { ArticleListRequest } from '@/api/articleRepository'
-import { Article } from '@/types'
+import { Article, Tag } from '@/types'
 
 export type FeedType = 'GLOBAL' | 'YOUR'
 
@@ -47,6 +47,14 @@ export default function useArticleList () {
     
   }
 
+  const getArticleListByTag = async (tag: Tag) => {
+    const {
+      articles
+    } = await $repository.article.getArticleList({ tag })
+
+    state.articleList = articles
+  }
+
   const getArticleListByFeed = async (listType: FeedType) => {
     console.log(listType)
     const fetchArticleBy = {
@@ -64,6 +72,7 @@ export default function useArticleList () {
     getArticleList,
     getFeedArticleList,
     getArticleListByFeed,
+    getArticleListByTag,
     setFeedType
   }
 }

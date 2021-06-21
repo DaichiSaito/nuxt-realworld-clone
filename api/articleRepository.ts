@@ -1,10 +1,12 @@
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 import {
   Article,
-  ResponseTypes
+  ResponseTypes,
+  Tag
 } from '@/types'
 import { LIMIT_LIST_ITEM } from '@/constants'
 type FeedArticleListRequest = {
+  tag?: Tag,
   limit?: number
   offset?: number
 }
@@ -25,11 +27,15 @@ type ArticleListResponse = ResponseTypes<{
 
 export const articleRepository = (axios: NuxtAxiosInstance) => ({
   getArticleList({
+    tag,
     limit = LIMIT_LIST_ITEM,
     offset = 0
   }: ArticleListRequest = {}): ArticleListResponse {
+    const defaultPaarm = {
+      ...(tag && { tag })
+    }
     return axios.$get('/articles', {
-      params: { limit, offset }
+      params: { ...defaultPaarm, limit, offset }
     })
   },
   getFeedArticleList({
